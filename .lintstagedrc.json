@@ -1,0 +1,30 @@
+{
+    "apps/frontend/**/*.{js,jsx,ts,tsx}": [
+        "eslint --max-warnings 0",
+        "prettier --check"
+    ],
+    "apps/frontend/**/*.{css,md,json}": [
+        "prettier --check"
+    ],
+    "apps/backend/**/*.{js,jsx,ts,tsx}": [
+        "eslint --max-warnings 0",
+        "prettier --check"
+    ],
+    "apps/backend/**/*.{css,md,json}": [
+        "prettier --check"
+    ],
+    "packages/common/**/*.{js,jsx,ts,tsx}": [
+        "eslint --max-warnings 0",
+        "prettier --check"
+    ],
+    "packages/common/**/*.{css,md,json}": [
+        "prettier --check"
+    ],
+    "packages/prisma-client/**/*.{js,jsx,ts,tsx}": [
+        "eslint --max-warnings 0",
+        "prettier --check"
+    ],
+    "packages/prisma-client/**/*.{css,md,json}": [
+        "prettier --check"
+    ]
+}
