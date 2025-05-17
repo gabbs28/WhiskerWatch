@@ -20,7 +20,6 @@ CREATE TYPE fur_pattern_type AS ENUM ('Solid', 'Bi-Color', 'Calico', 'Mackerel T
 CREATE TABLE pets
 (
     id                BIGSERIAL        NOT NULL PRIMARY KEY,
-    user_id           BIGINT           NOT NULL,
     name              VARCHAR(100)     NOT NULL,
     breed             breed_type       NOT NULL,
     birthday          DATE             NOT NULL,
@@ -35,11 +34,8 @@ CREATE TABLE pets
     medical_condition TEXT[]           NOT NULL,
 
     created_at        TIMESTAMPTZ      NOT NULL DEFAULT CLOCK_TIMESTAMP(),
-    updated_at        TIMESTAMPTZ      NOT NULL DEFAULT CLOCK_TIMESTAMP(),
-
-    FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE ON DELETE CASCADE
+    updated_at        TIMESTAMPTZ      NOT NULL DEFAULT CLOCK_TIMESTAMP()
 );
-CREATE INDEX ON pets (user_id);
 
 CREATE TABLE pet_images
 (

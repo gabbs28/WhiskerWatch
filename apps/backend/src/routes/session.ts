@@ -28,7 +28,6 @@ router.post('/', async (request: Request, response: Response, _next: NextFunctio
     const user = await request.db.users.findUnique({
         where: { username: result.username },
     });
-
     // Make sure the user exists and the password is correct.
     if (user == null || !bcrypt.compareSync(result.password, user.password_hash)) {
         response.json(

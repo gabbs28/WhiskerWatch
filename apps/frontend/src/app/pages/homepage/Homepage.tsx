@@ -3,6 +3,7 @@ import './Homepage.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '../../redux/store';
 import { logout, restore } from '../../redux/session';
+import { pets } from '../../redux/pets';
 import { Box, Button, Container, Typography } from '@mui/material';
 import LoginForm from '../../components/modules/LoginForm';
 import LoginFormModal from '../../components/modules/LoginFormModal';
@@ -16,7 +17,7 @@ const Homepage: React.FC = () => {
 
     // Redux state
     const user = useSelector((state: RootState) => state.session.user);
-
+    const petss = useSelector((state: RootState) => state.pets.pets)
     // State
     const [showLoginFormModal, setShowLoginFormModal] = useState<boolean>(false);
     const [showSignupFormModal, setShowSignupFormModal] = useState<boolean>(false);
@@ -35,6 +36,7 @@ const Homepage: React.FC = () => {
     // On load
     useEffect(() => {
         dispatch(restore());
+        dispatch(pets())
     }, [dispatch]);
 
     return (
