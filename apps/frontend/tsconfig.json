@@ -3,6 +3,9 @@
     "include": [],
     "references": [
         {
+            "path": "../../packages/prisma-client"
+        },
+        {
             "path": "../../packages/common"
         },
         {
