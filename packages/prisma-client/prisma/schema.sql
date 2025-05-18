@@ -34,7 +34,7 @@ CREATE TABLE pets
     medical_condition TEXT[]           NOT NULL,
 
     created_at        TIMESTAMPTZ      NOT NULL DEFAULT CLOCK_TIMESTAMP(),
-    updated_at        TIMESTAMPTZ      NOT NULL DEFAULT CLOCK_TIMESTAMP()
+    z        TIMESTAMPTZ      NOT NULL DEFAULT CLOCK_TIMESTAMP()
 );
 
 CREATE TABLE pet_images
