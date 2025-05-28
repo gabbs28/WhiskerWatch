@@ -1,23 +1,26 @@
-import { createBrowserRouter, Outlet } from 'react-router-dom';
-import Homepage from '../pages/homepage';
-import PetDashboard from '../pages/homepage/pet-dashboard/PetDashboard';
-import PetProfile from '../pages/pet-profile/PetProfile';
+import { createBrowserRouter } from 'react-router-dom';
+import Layout from '../components/modules/Layout';
+import Dashboard from '../components/modules/Dashboard/Dashboard';
+import Pets from '../pages/Pets/Pets';
+import PetProfile from '../pages/PetProfile';
 
 export const Router = createBrowserRouter([
     {
-        element: <Outlet />,
+        element: <Layout />,
         children: [
             {
                 path: '/',
-                element: <Homepage />,
+                element: <Dashboard />,
             },
             {
-                path: '/pets/:id',
-                element: <PetDashboard/>,
-            },
-            {
-                path: '/pets/new',
-                element: <PetProfile/>,
+                path: '/pets',
+                element: <Pets />,
+                children: [
+                    {
+                        path: ':id',
+                        element: <PetProfile />,
+                    },
+                ],
             },
             {
                 path: '*',

@@ -3,7 +3,9 @@
 ## Schema Naming
 
 To figure out a good name for your schema consider the following; if your project is called `My Cool Project` a good
-name for the schema would be `my_cool_project` for `production` and `my_cool_product_dev` for `develeopement`.
+name for the schema would be `my_cool_project` for `production` and `my_cool_product_dev` for `develeopement`. For the
+`SHADOW_DATABASE_URL` append `_shadow` to the name of the schema. If your schema is called `my_cool_product_dev` the
+`shadow` variant would be called `my_cool_product_dev_shadow`.
 
 ## Setup
 
@@ -11,6 +13,7 @@ Follow these steps to set up the `prisma-client` (all commands should be run fro
 
 -   Create your baseline schema in [schema.sql](./prisma/schema.sql)
 -   Set the `DATABASE_URL` in [.env](../../.env) to resolve to your database
+-   Set the `SHADOW_DATABASE_URL` in [.env](../../.env) to resolve to your database
 -   Connect to the database and apply your schema using the following commands:
 
 ```shell
@@ -25,10 +28,13 @@ psql "<DATABASE_URL>" --command "CREATE SCHEMA IF NOT EXISTS <SCHEMA>"
 psql "<DATABASE_URL>" --single-transaction --file ./packages/prisma-client/prisma/schema.sql
 
 # Notify prisma of the changes
-prisma db pull --schema=./packages/prisma-client/prisma/schema.prisma --force
+npx prisma db pull --schema=./packages/prisma-client/prisma/schema.prisma --force
 
 # Update the schema.prisma file to reflect your database
-prisma generate --schema=./packages/prisma-client/prisma/schema.prisma
+npx prisma generate --schema=./packages/prisma-client/prisma/schema.prisma
+
+# Rebuild the client
+nx build prisma-client
 ```
 
 -   Create a baseline migration using the following commands:
@@ -38,20 +44,32 @@ prisma generate --schema=./packages/prisma-client/prisma/schema.prisma
 mkdir -p ./packages/prisma-client/prisma/migrations/0_init
 
 # Create the baseline migration
-prisma migrate diff \
+npx prisma migrate diff \
     --from-empty \
     --to-schema-datamodel ./packages/prisma-client/prisma/schema.prisma \
     --script > ./packages/prisma-client/prisma/migrations/0_init/migration.sql
 
 # Mark the migration as applied
-prisma migrate resolve --applied 0_init --schema=./packages/prisma-client/prisma/schema.prisma
+npx prisma migrate resolve --applied 0_init --schema=./packages/prisma-client/prisma/schema.prisma
+
+# Rebuild the client
+nx build prisma-client
 ```
 
-The client is now ready to be [built](#building) and used by the backend.
+## Follow On Migrations
 
-## Building
+To create a new migration, first update the [schema.prisma](./prisma/schema.prisma) file. Then run the following command:
 
-Run `nx build prisma-client` to build the library.
+```shell
+# Create the migration
+npx prisma migrate dev --name "<NAME_OF_MIGRATION>" --schema=./packages/prisma-client/prisma/schema.prisma
+
+# Rebuild the client
+nx build prisma-client
+```
+
+It should be noted that that `NAME_OF_MIGRATION` should contain no special characters or spaces. The name should be
+descriptive of the changes being made.
 
 ## Links
 

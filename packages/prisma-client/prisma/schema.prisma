@@ -1,14 +1,23 @@
-generator client {
-  provider            = "prisma-client"
-  output              = "../src/prisma-client"
-  importFileExtension = "js"
-  moduleFormat        = "cjs"
-  runtime             = "nodejs"
+generator module {
+  provider = "prisma-client-js"
+  output   = "../src/prisma-client"
+}
+
+generator backend {
+  provider     = "prisma-client"
+  output       = "../../../apps/backend/src/database"
+  moduleFormat = "cjs"
+}
+
+generator frontend {
+  provider     = "prisma-client"
+  output       = "../../../apps/frontend/src/database"
+  moduleFormat = "esm"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
@@ -147,7 +156,6 @@ model pets {
   pet_charts        pet_charts[]
   pet_images        pet_images?
   user_pets         user_pets[]
-
 }
 
 model providers {

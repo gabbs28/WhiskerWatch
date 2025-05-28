@@ -12,14 +12,14 @@ import * as console from 'node:console';
 import { validationErrorHandler } from './middleware/validation.error';
 import { prismaErrorHandler } from './middleware/prisma.error';
 import { SafeUser } from '@aa-mono-repo/common';
-import prisma from '@aa-mono-repo/prisma-client';
+import { PrismaClient } from './database';
 import morgan from 'morgan';
 
 declare module 'express-serve-static-core' {
     // noinspection JSUnusedGlobalSymbols
     interface Request {
         user?: SafeUser;
-        db: typeof prisma;
+        db: PrismaClient;
     }
 }
 

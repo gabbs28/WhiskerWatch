@@ -1,12 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { generateErrorResponse } from '../utils/error.js';
-import {
-    PrismaClientInitializationError,
-    PrismaClientKnownRequestError,
-    PrismaClientRustPanicError,
-    PrismaClientUnknownRequestError,
-    PrismaClientValidationError,
-} from '@aa-mono-repo/prisma-client';
+import { Prisma } from '../database';
 
 /**
  * Handles errors arising from Prisma client operations and provides appropriate responses.
@@ -38,7 +32,7 @@ export const prismaErrorHandler = (
     next: NextFunction,
 ) => {
     // Check if the error is a known Prisma error
-    if (error instanceof PrismaClientKnownRequestError) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
         // Handle specific known error codes
         switch (error.code) {
             // Unique
@@ -60,6 +54,21 @@ export const prismaErrorHandler = (
                 return;
             }
 
+            // Missing
+            case 'P2025': {
+                // Respond with an error message
+                response.json(
+                    generateErrorResponse('Entity Not Found Error', 404, {
+                        message: `The specified ${
+                            error?.meta?.modelName ?? ''
+                        } entity could not be found. Please check the ID and try again.`,
+                    }),
+                );
+
+                // Return early to prevent further execution
+                return;
+            }
+
             // Catch all for unhandled codes
             default: {
                 // Respond with an error message
@@ -73,7 +82,7 @@ export const prismaErrorHandler = (
                 return;
             }
         }
-    } else if (error instanceof PrismaClientValidationError) {
+    } else if (error instanceof Prisma.PrismaClientValidationError) {
         // Respond with an error message
         response.json(
             generateErrorResponse('Validation Error', 400, {
@@ -84,9 +93,9 @@ export const prismaErrorHandler = (
         // Return early to prevent further execution
         return;
     } else if (
-        error instanceof PrismaClientUnknownRequestError ||
-        error instanceof PrismaClientRustPanicError ||
-        error instanceof PrismaClientInitializationError
+        error instanceof Prisma.PrismaClientUnknownRequestError ||
+        error instanceof Prisma.PrismaClientRustPanicError ||
+        error instanceof Prisma.PrismaClientInitializationError
     ) {
         // Respond with an error message
         response.json(

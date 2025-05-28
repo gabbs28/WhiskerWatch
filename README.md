@@ -9,11 +9,13 @@ database. The frontend uses React with Material UI.
 Set the `title` in the [index.html](apps/frontend/index.html).
 
 Copy the [.env.sample](.env.sample) to [.env](.env). A random value needs to be set for both `CSRF_SECRET` and
-`JWT_SECRET`. Set the `DATABASE_URL` to the database you are using. If using a shared database where the project should
-be saved into a schema make sure to set the `schema` parameter in the connection string as shown in the example below:
+`JWT_SECRET`. Set the `DATABASE_URL` and `SHADOW_DATABASE_URL` to the database you are using. If using a shared database
+where the project should be saved into a schema make sure to set the `schema` parameter in the connection string as
+shown in the example below:
 
 ```shell
-DATABASE_URL="postgresql://user:password@host:port/database-name?schema=schema-name"
+DATABASE_URL="postgresql://user:password@host:port/database-name?schema=schema_name"
+SHADOW_DATABASE_URL="postgresql://user:password@host:port/database-name?schema=schema_name_shadow"
 ```
 
 Copy the [.production.env.sample](.production.env.sample) to [.production.env](.production.env). This will allow for
@@ -75,7 +77,7 @@ Use the following settings when deploying to Render.com:
 Create two environment variables, one called `CSRF_SECRET` and the other `JWT_SECRET`. Use the `Generate` button to
 create a random value for each.
 
-Set the `DATABASE_URL` based on the appropriate connection string.
+Set the `DATABASE_URL` and `SHADOW_DATABASE_URL` based on the appropriate connection string.
 
 ## Build Command
 

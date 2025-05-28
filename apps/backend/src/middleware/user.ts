@@ -7,7 +7,7 @@ import {
     JWT_SECRET,
 } from '../config/environment.config.js';
 import { SafeUser, SelectSafeUser } from '@aa-mono-repo/common';
-import prisma from '@aa-mono-repo/prisma-client';
+import { prisma } from './prisma.transaction';
 
 /**
  * Generates a set of options for configuring a JWT cookie.
@@ -77,8 +77,6 @@ export const user = (request: Request, response: Response, next: NextFunction): 
 
         // Look up the user in the database and attach it to the request
         try {
-            console.log('data', data);
-
             // Get user from the database
             request.user = (await prisma.users.findUnique({
                 where: {

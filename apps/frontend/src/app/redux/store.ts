@@ -3,13 +3,13 @@ import { sessionSlice } from './session';
 import logger from 'redux-logger';
 import { IS_DEVELOPMENT } from '../config/environment.config';
 import { signupSlice } from './signup';
-import { petsSlice } from './pets';
+import { petSlice } from './pet';
 
 export const store = configureStore({
     reducer: {
         session: sessionSlice.reducer,
         signup: signupSlice.reducer,
-        pets: petsSlice.reducer
+        pet: petSlice.reducer,
     },
     middleware: (getDefaultMiddleware) => {
         if (IS_DEVELOPMENT) {

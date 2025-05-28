@@ -107,7 +107,7 @@ const SignupForm: React.FC<ModalContentsProperties> = ({ onSuccess, onFailure })
                         value={firstname}
                         helperText="Please enter your first name!"
                         required={true}
-                        onChange={(event) => handleInputChange(event, 'username')}
+                        onChange={(event) => handleInputChange(event, 'firstname')}
                         error={!!user.errors.first_name}
                         errorMessage={user.errors.first_name ?? ''}
                     />

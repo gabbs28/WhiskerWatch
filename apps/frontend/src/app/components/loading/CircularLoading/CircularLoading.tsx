@@ -3,10 +3,10 @@ import { Backdrop, CircularProgress } from '@mui/material';
 import './CircularLoading.module.css';
 
 export interface CircularLoadingProperties {
-    loading: boolean;
+    loading?: boolean;
 }
 
-const CircularLoading: React.FC<CircularLoadingProperties> = ({ loading }) => {
+const CircularLoading: React.FC<CircularLoadingProperties> = ({ loading = true }) => {
     return (
         <Backdrop
             sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}

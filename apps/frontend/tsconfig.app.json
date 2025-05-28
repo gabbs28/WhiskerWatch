@@ -33,9 +33,6 @@
     "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"],
     "references": [
         {
-            "path": "../../packages/prisma-client/tsconfig.lib.json"
-        },
-        {
             "path": "../../packages/common/tsconfig.lib.json"
         }
     ]

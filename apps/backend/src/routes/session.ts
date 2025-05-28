@@ -4,7 +4,12 @@ import jwt, { SignOptions } from 'jsonwebtoken';
 import { JWT_COOKIE_OPTIONS } from '../middleware/user';
 import { stringify, SafeUser, validate, loginSchema } from '@aa-mono-repo/common';
 import { generateErrorResponse } from '../utils/error';
-import { JWT_COOKIE_NAME, JWT_EXPIRATION, JWT_SECRET } from '../config/environment.config';
+import {
+    IS_DEVELOPMENT,
+    JWT_COOKIE_NAME,
+    JWT_EXPIRATION,
+    JWT_SECRET,
+} from '../config/environment.config';
 import { doubleCsrfGenerateToken } from '../middleware/csrf';
 
 // Create router
@@ -12,6 +17,12 @@ const router = express.Router();
 
 // Get current session
 router.get('/', async (request: Request, response: Response) => {
+    // When in development mode, add the CSRF cookie as this request is always called
+    if (IS_DEVELOPMENT) {
+        // Set the csrf token as an HTTP-only cookie.
+        doubleCsrfGenerateToken(request, response);
+    }
+
     // Get user from request
     const user = request.user;
 
@@ -28,6 +39,7 @@ router.post('/', async (request: Request, response: Response, _next: NextFunctio
     const user = await request.db.users.findUnique({
         where: { username: result.username },
     });
+
     // Make sure the user exists and the password is correct.
     if (user == null || !bcrypt.compareSync(result.password, user.password_hash)) {
         response.json(

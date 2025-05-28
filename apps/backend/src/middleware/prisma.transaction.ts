@@ -1,5 +1,22 @@
 import { NextFunction, Request, Response } from 'express';
-import prisma from '@aa-mono-repo/prisma-client';
+import { PrismaClient } from '../database';
+
+// Create a global Prisma Client
+const globalForPrisma = global as unknown as { prisma: PrismaClient | undefined };
+
+// Wrap prisma creation behind a singleton function
+function getPrismaClient() {
+    if (process.env.NODE_ENV === 'production') {
+        return new PrismaClient();
+    }
+
+    globalForPrisma.prisma ??= new PrismaClient();
+
+    return globalForPrisma.prisma;
+}
+
+// Export the wrapped function as "prisma"
+export const prisma = getPrismaClient();
 
 export const prismaTransactionHandler = (
     request: Request,
@@ -8,7 +25,7 @@ export const prismaTransactionHandler = (
 ) => {
     prisma
         .$transaction(
-            async (transaction) => {
+            async (transaction: unknown) => {
                 // Attach transaction client to the request object
                 request.db = transaction as typeof prisma;
 
