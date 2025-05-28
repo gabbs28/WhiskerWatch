@@ -1,8 +1,10 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Layout from '../components/modules/Layout';
-import Dashboard from '../components/modules/Dashboard/Dashboard';
 import Pets from '../pages/Pets/Pets';
 import PetProfile from '../pages/PetProfile';
+import PetDashboard from '../pages/PetDashboard';
+import Dashboard from '../pages/Dashboard';
+import Appointments from '../pages/Appointments';
 
 export const Router = createBrowserRouter([
     {
@@ -11,6 +13,14 @@ export const Router = createBrowserRouter([
             {
                 path: '/',
                 element: <Dashboard />,
+            },
+            {
+                path: '/',
+                element: <PetDashboard />,
+            },
+            {
+                path: '/',
+                element: <Appointments />,
             },
             {
                 path: '/pets',

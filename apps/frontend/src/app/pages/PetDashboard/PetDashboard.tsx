@@ -17,7 +17,7 @@ const Item = styled(Paper)(({ theme }) => ({
     }),
 }));
 
-export default function PetDashboard() {
+function PetDashboard() {
     return (
         <>
             <Typography variant="h4" component="h2" sx={{ mb: 2 }}>
@@ -72,3 +72,5 @@ export default function PetDashboard() {
         </>
     );
 }
+
+export default PetDashboard;
